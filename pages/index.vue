@@ -1,5 +1,51 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { Loja, Produto } from "~/domain/Loja";
+import StoreStripe from "~/components/StoreStripe.vue";
+import StoreLayout from "~/layouts/StoreLayout.vue";
 
-<template></template>
+function randonProducts(count: number): Produto[] {
+  return Array.from({ length: count }, (_, index) => ({
+    id: index.toString(),
+    nome: `Produto ${index + 1}`,
+    preco: Math.random() * 100,
+    imagemUrl: `https://picsum.photos/800/800?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
+  }));
+}
 
-<style lang="scss"></style>
+function randomStore(name: string, products: Produto[]): [Loja, Produto[]] {
+  return [
+    {
+      id: Math.floor(Math.random() * 100).toString(),
+      nome: name,
+    },
+    products,
+  ];
+}
+
+const homeStripeData = ref<[Loja, Produto[]][]>([]);
+
+await callOnce(() => {
+  homeStripeData.value = [
+    randomStore("Loja 1", randonProducts(8)),
+    randomStore("Loja 2", randonProducts(8)),
+    randomStore("Loja 3", randonProducts(8)),
+    randomStore("Loja 4", randonProducts(8)),
+    randomStore("Loja 5", randonProducts(8)),
+  ];
+});
+</script>
+
+<template>
+  <StoreLayout>
+    <StoreStripe
+      v-for="[store, products] in homeStripeData"
+      :key="store.id"
+      :store="store"
+      :products="products"
+    />
+  </StoreLayout>
+</template>
+
+<style></style>

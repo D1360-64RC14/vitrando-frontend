@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scrollbar-h::-webkit-scrollbar {
+  @apply h-2 bg-transparent;
+}
+
+.scrollbar-h::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded hover:bg-gray-300;
+}
