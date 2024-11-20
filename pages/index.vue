@@ -48,5 +48,3 @@ const homeStripeData = [
     />
   </StoreLayout>
 </template>
-
-<style></style>

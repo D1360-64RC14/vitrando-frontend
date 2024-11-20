@@ -30,5 +30,3 @@ const { store, products } = defineProps<{
     </template>
   </Card>
 </template>
-
-<style></style>

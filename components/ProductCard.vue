@@ -21,5 +21,3 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
     <h5 class="text-xl">{{ currency.format(product.preco) }}</h5>
   </section>
 </template>
-
-<style></style>

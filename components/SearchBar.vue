@@ -11,5 +11,3 @@ import { InputText } from "primevue";
     />
   </Form>
 </template>
-
-<style></style>
