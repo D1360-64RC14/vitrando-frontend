@@ -22,6 +22,7 @@ function randomStore(name: string, products: Produto[]): [Loja, Produto[]] {
     {
       id: Math.floor(Math.random() * 100).toString(),
       nome: name,
+      slug: name.toLowerCase().replace(" ", "-"),
     },
     products,
   ];

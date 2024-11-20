@@ -16,7 +16,7 @@ const { store, products } = defineProps<{
   >
     <template #content>
       <h3 class="mb-5 ms-3 text-xl">
-        <a href="#">{{ store.nome }}</a>
+        <NuxtLink :to="`/@${store.slug}`">{{ store.nome }}</NuxtLink>
       </h3>
       <div
         class="grid snap-x auto-cols-[16rem] grid-flow-col gap-4 overflow-auto scrollbar-h-group pb-2"
@@ -24,7 +24,8 @@ const { store, products } = defineProps<{
         <ProductCard
           v-for="product in products"
           :key="product.id"
-          v-bind="product"
+          :product="product"
+          :store="store"
         />
       </div>
     </template>

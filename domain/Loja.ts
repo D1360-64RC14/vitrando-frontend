@@ -1,6 +1,7 @@
 export interface Loja {
   id: string;
   nome: string;
+  slug: string;
 }
 
 export interface Produto {
