@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { Loja, Produto } from "~/domain/Loja";
-import StoreLayout from "~/layouts/StoreLayout.vue";
-import StoreHeader from "~/components/StoreHeader.vue";
 import StoreStripe from "~/components/StoreStripe.vue";
+import HeaderSignIn from "~/components/header/HeaderSignIn.vue";
+import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
+import HeaderLogo from "~/components/header/HeaderLogo.vue";
+import StoreHeader from "~/components/StoreHeader.vue";
 
 function randonProducts(count: number): Produto[] {
   return Array.from({ length: count }, (_, index) => ({
@@ -35,9 +37,13 @@ const homeStripeData = [
 </script>
 
 <template>
-  <StoreLayout>
+  <NuxtLayout name="base">
     <template #header>
-      <StoreHeader />
+      <StoreHeader>
+        <HeaderLogo />
+        <HeaderSearchBar />
+        <HeaderSignIn />
+      </StoreHeader>
     </template>
 
     <StoreStripe
@@ -46,5 +52,5 @@ const homeStripeData = [
       :store="store"
       :products="products"
     />
-  </StoreLayout>
+  </NuxtLayout>
 </template>
