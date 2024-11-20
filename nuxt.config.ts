@@ -1,3 +1,24 @@
+import { definePreset } from "@primevue/themes";
+import Lara from "@primevue/themes/lara";
+
+const Vitrando = definePreset(Lara, {
+  semantic: {
+    primary: {
+      50: "{gray.50}",
+      100: "{gray.100}",
+      200: "{gray.200}",
+      300: "{gray.300}",
+      400: "{gray.400}",
+      500: "{gray.500}",
+      600: "{gray.600}",
+      700: "{gray.700}",
+      800: "{gray.800}",
+      900: "{gray.900}",
+      950: "{gray.950}",
+    },
+  },
+});
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -42,6 +63,17 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
+    },
+  },
+  primevue: {
+    options: {
+      ripple: true,
+      theme: {
+        preset: Vitrando,
+        options: {
+          darkModeSelector: "",
+        },
+      },
     },
   },
 });
