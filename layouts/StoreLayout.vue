@@ -1,8 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="bg-gray-50 grid grid-cols-5 gap-4">
-    <header class="col-span-full h-16 bg-red-600">Header</header>
+  <div class="bg-gray-50 grid grid-cols-5 gap-4 p-4">
+    <header class="col-span-full">
+      <slot name="header">Header</slot>
+    </header>
 
     <aside class="col-span-1 ms-4">
       <div class="lg:sticky lg:bottom-0 lg:top-0">

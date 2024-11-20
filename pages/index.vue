@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Loja, Produto } from "~/domain/Loja";
-import StoreStripe from "~/components/StoreStripe.vue";
 import StoreLayout from "~/layouts/StoreLayout.vue";
+import StoreHeader from "~/components/StoreHeader.vue";
+import StoreStripe from "~/components/StoreStripe.vue";
 
 function randonProducts(count: number): Produto[] {
   return Array.from({ length: count }, (_, index) => ({
@@ -25,16 +26,20 @@ function randomStore(name: string, products: Produto[]): [Loja, Produto[]] {
 }
 
 const homeStripeData = [
-    randomStore("Loja 1", randonProducts(8)),
-    randomStore("Loja 2", randonProducts(8)),
-    randomStore("Loja 3", randonProducts(8)),
-    randomStore("Loja 4", randonProducts(8)),
-    randomStore("Loja 5", randonProducts(8)),
-  ];
+  randomStore("Loja 1", randonProducts(8)),
+  randomStore("Loja 2", randonProducts(8)),
+  randomStore("Loja 3", randonProducts(8)),
+  randomStore("Loja 4", randonProducts(8)),
+  randomStore("Loja 5", randonProducts(8)),
+];
 </script>
 
 <template>
   <StoreLayout>
+    <template #header>
+      <StoreHeader />
+    </template>
+
     <StoreStripe
       v-for="[store, products] in homeStripeData"
       :key="store.id"
