@@ -13,6 +13,7 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
       class="overflow-hidden rounded-lg"
       width="400"
       height="400"
+      loading="lazy"
       :src="product.imagemUrl"
     />
     <h4 class="my-3 text-gray-700">
