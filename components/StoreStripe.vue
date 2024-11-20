@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Card from "primevue/card";
 import type { Loja, Produto } from "~/domain/Loja";
+import Card from "primevue/card";
 import ProductCard from "./ProductCard.vue";
 
 const { store, products } = defineProps<{
