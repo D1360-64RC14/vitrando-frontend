@@ -8,8 +8,9 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
 </script>
 
 <template>
-  <section class="cursor-pointer snap-start overflow-hidden rounded-lg">
+  <section class="cursor-pointer snap-start">
     <img
+      class="overflow-hidden rounded-lg"
       width="400"
       height="400"
       :src="product.imagemUrl"
