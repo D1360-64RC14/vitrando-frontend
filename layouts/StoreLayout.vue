@@ -6,13 +6,13 @@
       <slot name="header">Header</slot>
     </header>
 
-    <aside class="col-span-1 ms-4">
+    <!-- <aside class="col-span-1">
       <div class="lg:sticky lg:bottom-0 lg:top-0">
         <slot name="filters">Filtros</slot>
       </div>
-    </aside>
+    </aside> -->
 
-    <main class="flex-grow col-span-4 me-4 flex flex-col gap-4">
+    <main class="flex-grow col-span-5 flex flex-col gap-4">
       <slot></slot>
     </main>
 
