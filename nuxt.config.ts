@@ -22,7 +22,7 @@ const Vitrando = definePreset(Lara, {
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  modules: ["@primevue/nuxt-module"],
+  modules: ["@primevue/nuxt-module", "@vesp/nuxt-fontawesome"],
   devtools: {
     enabled: true,
   },
@@ -74,6 +74,12 @@ export default defineNuxtConfig({
           darkModeSelector: "",
         },
       },
+    },
+  },
+  fontawesome: {
+    component: "font-awesome-icon",
+    icons: {
+      solid: ["phone", "at", "user"],
     },
   },
 });

@@ -12,6 +12,7 @@
   "dependencies": {
     "@primevue/forms": "^4.2.2",
     "@primevue/themes": "^4.2.2",
+    "@vesp/nuxt-fontawesome": "^1.1.0",
     "nuxt": "^3.14.159",
     "primevue": "^4.2.2",
     "tailwindcss-primeui": "^0.3.4",
@@ -19,6 +20,9 @@
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.1",
+    "@fortawesome/free-regular-svg-icons": "^6.7.1",
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@primevue/nuxt-module": "^4.2.2",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
