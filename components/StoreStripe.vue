@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import Card from "primevue/card";
 import type { Loja, Produto } from "~/domain/Loja";
 import ProductCard from "./ProductCard.vue";
-import { useCurrency } from "~/composables/currency";
 
 const { store, products } = defineProps<{
   store: Loja;
@@ -10,9 +10,11 @@ const { store, products } = defineProps<{
 </script>
 
 <template>
-  <article
-    class="rounded-md border-[1px] border-gray-200 bg-white px-6 pb-4 pt-4"
+  <Card
+    class="group"
+    role="article"
   >
+    <template #content>
     <h3 class="mb-5 text-xl">
       <a href="#">{{ store.nome }}</a>
     </h3>
@@ -25,7 +27,8 @@ const { store, products } = defineProps<{
         v-bind="product"
       />
     </div>
-  </article>
+    </template>
+  </Card>
 </template>
 
 <style></style>
