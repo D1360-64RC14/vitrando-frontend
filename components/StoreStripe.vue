@@ -15,18 +15,18 @@ const { store, products } = defineProps<{
     role="article"
   >
     <template #content>
-    <h3 class="mb-5 text-xl">
-      <a href="#">{{ store.nome }}</a>
-    </h3>
-    <div
-      class="grid snap-x auto-cols-[16rem] grid-flow-col gap-4 overflow-auto scrollbar-h pb-2"
-    >
-      <ProductCard
-        v-for="product in products"
-        :key="product.id"
-        v-bind="product"
-      />
-    </div>
+      <h3 class="mb-5 text-xl">
+        <a href="#">{{ store.nome }}</a>
+      </h3>
+      <div
+        class="grid snap-x auto-cols-[16rem] grid-flow-col gap-4 overflow-auto scrollbar-h-group pb-2"
+      >
+        <ProductCard
+          v-for="product in products"
+          :key="product.id"
+          v-bind="product"
+        />
+      </div>
     </template>
   </Card>
 </template>

@@ -9,3 +9,17 @@
 .scrollbar-h::-webkit-scrollbar-thumb {
   @apply bg-gray-200 rounded hover:bg-gray-300;
 }
+
+.scrollbar-h-group::-webkit-scrollbar {
+  @apply h-2 bg-transparent;
+}
+.scrollbar-h-group::-webkit-scrollbar-thumb {
+  @apply bg-opacity-0 bg-gray-300;
+}
+
+.group:has(:hover) .scrollbar-h-group::-webkit-scrollbar {
+  @apply h-2 bg-transparent;
+}
+.group:has(:hover) .scrollbar-h-group::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded hover:bg-gray-300 bg-opacity-100;
+}
