@@ -16,7 +16,7 @@
       <slot></slot>
     </main>
 
-    <footer class="col-span-full h-60 bg-gray-300">
+    <footer class="col-span-full">
       <slot name="footer">Footer</slot>
     </footer>
   </div>
