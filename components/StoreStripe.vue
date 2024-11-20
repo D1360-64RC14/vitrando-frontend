@@ -15,7 +15,7 @@ const { store, products } = defineProps<{
     role="article"
   >
     <template #content>
-      <h3 class="mb-5 text-xl">
+      <h3 class="mb-5 ms-3 text-xl">
         <a href="#">{{ store.nome }}</a>
       </h3>
       <div
