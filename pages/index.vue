@@ -24,17 +24,13 @@ function randomStore(name: string, products: Produto[]): [Loja, Produto[]] {
   ];
 }
 
-const homeStripeData = ref<[Loja, Produto[]][]>([]);
-
-await callOnce(() => {
-  homeStripeData.value = [
+const homeStripeData = [
     randomStore("Loja 1", randonProducts(8)),
     randomStore("Loja 2", randonProducts(8)),
     randomStore("Loja 3", randonProducts(8)),
     randomStore("Loja 4", randonProducts(8)),
     randomStore("Loja 5", randonProducts(8)),
   ];
-});
 </script>
 
 <template>
