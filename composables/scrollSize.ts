@@ -21,8 +21,6 @@ export const useScrollSize = (container?: Element) => {
 
     scrollSize.offTop = scrollContainer.scrollTop > 0;
     scrollSize.offLeft = scrollContainer.scrollLeft > 0;
-
-    console.log(scrollSize);
   });
 
   return scrollSize;
