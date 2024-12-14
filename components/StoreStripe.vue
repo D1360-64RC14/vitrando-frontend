@@ -18,16 +18,19 @@ const { store, products } = defineProps<{
       <h3 class="mb-5 ms-3 text-xl">
         <NuxtLink :to="`/@${store.slug}`">{{ store.nome }}</NuxtLink>
       </h3>
-      <div
-        class="grid snap-x auto-cols-[16rem] grid-flow-col gap-4 overflow-auto scrollbar-h-group pb-4"
+      <ScrollableArrows
+        snap-x
+        :item-size="16 * 16 /* 16 rem */"
       >
-        <ProductCard
-          v-for="product in products"
-          :key="product.id"
-          :product="product"
-          :store="store"
-        />
-      </div>
+        <div class="grid auto-cols-[16rem] grid-flow-col gap-4 pb-4">
+          <ProductCard
+            v-for="product in products"
+            :key="product.id"
+            :product="product"
+            :store="store"
+          />
+        </div>
+      </ScrollableArrows>
     </template>
   </Card>
 </template>
