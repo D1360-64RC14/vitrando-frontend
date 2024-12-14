@@ -6,7 +6,15 @@ import { Form } from "@primevue/forms";
 <template>
   <NuxtLayout name="centered">
     <Form class="grid gap-4">
-      <h3 class="text-2xl mb-4">Entre com seus dados</h3>
+      <h3 class="text-2xl mb-4">
+        <AnchorBack>
+          <font-awesome-icon
+            :icon="['fas', 'arrow-left']"
+            class="me-3 scale-75 text-primary-600"
+          />
+        </AnchorBack>
+        <span>Entre com seus dados</span>
+      </h3>
 
       <FloatLabel variant="in">
         <IconField>

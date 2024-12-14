@@ -44,7 +44,7 @@ export default {
   fontawesome: {
     component: "font-awesome-icon",
     icons: {
-      solid: ["phone", "at", "user"],
+      solid: ["phone", "at", "user", "arrow-left"],
     },
   },
 } as InputConfig<NuxtConfig, ConfigLayerMeta>;
