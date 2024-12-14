@@ -6,34 +6,43 @@ import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
 
-function randonProducts(count: number): Produto[] {
-  return Array.from({ length: count }, (_, index) => ({
-    id: index.toString(),
-    nome: `Produto ${index + 1}`,
-    preco: Math.random() * 100,
-    imagemUrl: `https://picsum.photos/800/800?random=${Math.floor(
-      Math.random() * 1000
-    )}`,
-  }));
+function randonProducts(count: number): (storeId: number) => Produto[] {
+  return (storeId: number) => {
+    return Array.from({ length: count }, (_, index) => {
+      const price = Math.floor(Math.random() * 10000) / 100;
+      const imageId = storeId * 10 + index;
+
+      return {
+        id: index.toString(),
+        nome: `Produto ${index + 1}`,
+        preco: price,
+        imagemUrl: `https://picsum.photos/id/${imageId}/800/800`,
+      };
+    });
+  };
 }
 
-function randomStore(name: string, products: Produto[]): [Loja, Produto[]] {
+function store(
+  name: string,
+  id: number,
+  products: (id: number) => Produto[]
+): [Loja, Produto[]] {
   return [
     {
       id: Math.floor(Math.random() * 100).toString(),
       nome: name,
       slug: name.toLowerCase().replace(" ", "-"),
     },
-    products,
+    products(id),
   ];
 }
 
 const homeStripeData = [
-  randomStore("Loja 1", randonProducts(8)),
-  randomStore("Loja 2", randonProducts(8)),
-  randomStore("Loja 3", randonProducts(8)),
-  randomStore("Loja 4", randonProducts(8)),
-  randomStore("Loja 5", randonProducts(8)),
+  store("Loja 1", 1, randonProducts(8)),
+  store("Loja 2", 2, randonProducts(8)),
+  store("Loja 3", 3, randonProducts(8)),
+  store("Loja 4", 4, randonProducts(8)),
+  store("Loja 5", 5, randonProducts(8)),
 ];
 </script>
 
