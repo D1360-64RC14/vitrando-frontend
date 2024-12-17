@@ -12,5 +12,11 @@ export default {
     "/@[storeSlug]/[productID]": {
       ssr: true,
     },
+    "/login": {
+      ssr: false,
+    },
+    "/signin": {
+      ssr: false,
+    },
   },
 } as InputConfig<NuxtConfig, ConfigLayerMeta>;
