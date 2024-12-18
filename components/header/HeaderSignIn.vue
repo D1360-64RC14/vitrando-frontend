@@ -13,7 +13,7 @@
     </NuxtLink>
     <NuxtLink to="/signin">
       <Button
-        variant="link"
+        variant="text"
         severity="secondary"
       >
         Criar conta
