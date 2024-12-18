@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import type { Loja, Produto } from "~/domain/Loja";
+import type { Store, Product } from "~/domain/Store";
 import StoreStripe from "~/components/StoreStripe.vue";
 import HeaderSignIn from "~/components/header/HeaderSignIn.vue";
 import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
+import { useMyAuthStore } from "~/stores/Auth";
 
-const randomProducts = (count: number) => (storeId: number) => {
+const randomProducts = (count: number) => (storeID: number) => {
   return Array.from({ length: count }, (_, index) => {
     const price = Math.floor(Math.random() * 10000) / 100;
-    const imageId = storeId * 10 + index;
+    const imageId = storeID * 10 + index;
 
-    return {
-      id: index.toString(),
-      nome: `Produto ${index + 1}`,
-      preco: price,
-      imagemUrl: `https://picsum.photos/id/${imageId}/800/800`,
+    return <Product>{
+      id: index,
+      storeID: storeID,
+      name: `Produto ${index + 1}`,
+      price: price,
+      imageUrl: `https://picsum.photos/id/${imageId}/800/800`,
     };
   });
 };
@@ -23,12 +25,12 @@ const randomProducts = (count: number) => (storeId: number) => {
 function store(
   name: string,
   id: number,
-  products: (id: number) => Produto[]
-): [Loja, Produto[]] {
+  products: (id: number) => Product[]
+): [Store, Product[]] {
   return [
     {
-      id: Math.floor(Math.random() * 100).toString(),
-      nome: name,
+      id: Math.floor(Math.random() * 100),
+      name: name,
       slug: name.toLowerCase().replace(" ", "-"),
     },
     products(id),
@@ -50,7 +52,8 @@ const homeStripeData = [
       <StoreHeader>
         <HeaderLogo />
         <HeaderSearchBar />
-        <HeaderSignIn />
+        <HeaderSignIn v-if="!useMyAuthStore.client" />
+        <HeaderAccount v-else />
       </StoreHeader>
     </template>
 
