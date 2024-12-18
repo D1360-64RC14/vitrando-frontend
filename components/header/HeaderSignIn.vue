@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import { Button } from "primevue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
