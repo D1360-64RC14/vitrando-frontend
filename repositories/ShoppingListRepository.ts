@@ -1,4 +1,6 @@
 import type { ShoppingListID, ClientID, ProductID } from "~/domain/ID";
+import type { Product } from "~/domain/Store";
+import { StoreRepository } from "./StoreRepository";
 
 export interface ShoppingList {
   shoppingListID: ShoppingListID;
@@ -12,7 +14,39 @@ export interface ShoppingListItem {
   quantity: number;
 }
 
+export interface StoreCart {
+  shoppingList?: ShoppingList;
+  items: StoreCartItem[];
+}
+
+export interface StoreCartItem {
+  item: ShoppingListItem;
+  product: Product;
+}
+
 export class ShoppingListRepository {
+  private readonly storeRepo = new StoreRepository();
+
+  async getCartForStore(clientID: ClientID): Promise<StoreCart> {
+    const cart = await this.getCart(clientID);
+    const cartItems = await this.getShoppingListItems(
+      clientID,
+      cart.shoppingListID
+    );
+
+    const productItemsToRequest = cartItems!.map(async (sli) => ({
+      item: sli,
+      product: (await this.storeRepo.getProduct(sli.productID, sli.productID))!,
+    }));
+
+    const productItems = await Promise.all(productItemsToRequest);
+
+    return {
+      shoppingList: cart,
+      items: productItems,
+    };
+  }
+
   async getCart(clientID: ClientID): Promise<ShoppingList> {
     let shoppingList = shoppingLists.findLast((sl) => sl.clientID === clientID);
 

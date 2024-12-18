@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { useMyAuthStore } from "~/stores/Auth";
+import { useMyCartStore } from "~/stores/Cart";
+
+const itemsInCart = computed(() => useMyCartStore.items.length);
 </script>
 
 <template>
   <div class="flex gap-2">
     <Button
       variant="outlined"
-      badge="5"
+      :badge="itemsInCart.toString()"
       badge-severity=""
     >
       <template #icon>
