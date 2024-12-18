@@ -53,7 +53,10 @@ const homeStripeData = [
         <HeaderLogo />
         <HeaderSearchBar />
         <HeaderSignIn v-if="!useMyAuthStore.client" />
-        <HeaderAccount v-else />
+        <HeaderAccount
+          v-else
+          show-cart
+        />
       </StoreHeader>
     </template>
 
