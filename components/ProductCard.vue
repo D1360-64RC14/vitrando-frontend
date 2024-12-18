@@ -12,16 +12,21 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
 
 <template>
   <NuxtLink :to="`/@${store.slug}/${product.id}`">
-    <section class="snap-start">
-      <img
-        class="overflow-hidden rounded-lg"
-        width="400"
-        height="400"
-        loading="lazy"
-        :src="product.imageUrl"
-      />
-      <h4 class="my-3 text-gray-700">{{ product.name }}</h4>
-      <h5 class="text-xl">{{ currency.format(product.price) }}</h5>
+    <section
+      class="snap-start bg-white h-full w-full overflow-hidden rounded-lg flex flex-col"
+    >
+      <div class="flex-grow">
+        <img
+          width="400"
+          height="400"
+          loading="lazy"
+          :src="product.imageUrl"
+        />
+      </div>
+      <div>
+        <h4 class="my-3 text-gray-700">{{ product.name }}</h4>
+        <h5 class="text-xl">{{ currency.format(product.price) }}</h5>
+      </div>
     </section>
   </NuxtLink>
 </template>

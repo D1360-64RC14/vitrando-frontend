@@ -3,6 +3,7 @@ import type { ProductID, StoreID } from "./ID";
 export interface Store {
   id: StoreID;
   name: string;
+  description: string;
   slug: string;
 }
 

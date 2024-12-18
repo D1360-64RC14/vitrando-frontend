@@ -11,5 +11,11 @@ import { useMyAuthStore } from "~/stores/Auth";
         <HeaderAccount v-else />
       </StoreHeader>
     </template>
+
+    <div class="flex justify-center">
+      <Card>
+        <div></div>
+      </Card>
+    </div>
   </NuxtLayout>
 </template>

@@ -1,11 +1,39 @@
 import type { ProductID, StoreID } from "~/domain/ID";
 import type { Product, Store } from "~/domain/Store";
 
+export interface StoreNearbyStore {
+  stores?: StorenearbyStoreProducts[];
+}
+
+export interface StorenearbyStoreProducts {
+  store: Store;
+  products: Product[];
+}
+
 export class StoreRepository {
   constructor() {}
 
+  async getNearbyStoresForStore(): Promise<StorenearbyStoreProducts[]> {
+    const stores = await this.getNearbyStores();
+
+    const storeProductsToRequest = stores.map(async (s) => ({
+      store: s,
+      products: (await this.getProducts(s.id))!,
+    }));
+
+    return await Promise.all(storeProductsToRequest);
+  }
+
   async getNearbyStores(): Promise<Store[]> {
     return stores;
+  }
+
+  async getStoreFromSlug(slug: string): Promise<Store | null> {
+    const store = stores.find(
+      (s) => s.slug.toLowerCase() === slug.toLowerCase()
+    );
+
+    return store ?? null;
   }
 
   async getProduct(
@@ -27,31 +55,35 @@ export class StoreRepository {
     return null;
   }
 }
-
 const stores: Store[] = [
   {
     id: 1,
     name: "Tech World",
+    description: "A loja perfeita para os amantes de tecnologia.",
     slug: "tech-world",
   },
   {
     id: 2,
     name: "Fashion Hub",
+    description: "Sua referência em moda e estilo.",
     slug: "fashion-hub",
   },
   {
     id: 3,
     name: "Home Essentials",
+    description: "Tudo o que você precisa para sua casa.",
     slug: "home-essentials",
   },
   {
     id: 4,
     name: "Gourmet Market",
+    description: "Os melhores produtos para sua cozinha gourmet.",
     slug: "gourmet-market",
   },
   {
     id: 5,
     name: "Sports Planet",
+    description: "O mundo dos esportes em um só lugar.",
     slug: "sports-planet",
   },
 ];
@@ -61,21 +93,24 @@ const products: Product[] = [
     id: 1,
     storeID: 1,
     name: "Smartphone Pro Max",
-    imageUrl: "https://example.com/techworld/smartphone.jpg",
+    imageUrl:
+      "https://reidocelular.com.br/wp-content/uploads/2024/09/Sem-2024-11-09T060332.311.png",
     price: 3999.99,
   },
   {
     id: 2,
     storeID: 1,
     name: "Ultra HD 4K TV",
-    imageUrl: "https://example.com/techworld/uhdtv.jpg",
+    imageUrl:
+      "https://a-static.mlcdn.com.br/800x560/smart-tv-65-ultra-hd-4k-led-lg-65up7550-60hz-wi-fi-e-bluetooth-alexa-2-hdmi-1-usb/magazineluiza/228863700/dbdc8056ba89ef2f7642c0d1a409b981.jpg",
     price: 2599.99,
   },
   {
     id: 3,
     storeID: 1,
     name: "Wireless Headphones",
-    imageUrl: "https://example.com/techworld/headphones.jpg",
+    imageUrl:
+      "https://media.wired.com/photos/66abec9ccb172c2e5de763bf/master/w_960,c_limit/Edifier-Stax-Spirit-S5-Headphones-Offwhite-Background-SOURCE-Amazon.jpg",
     price: 499.99,
   },
   {

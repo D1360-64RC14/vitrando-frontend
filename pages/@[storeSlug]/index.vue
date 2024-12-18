@@ -1,8 +1,19 @@
 <script lang="ts" setup>
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
+import { StoreRepository } from "~/repositories/StoreRepository";
+import { useMyAuthStore } from "~/stores/Auth";
 
 const route = useRoute();
+const storeRepo = new StoreRepository();
+
+const storeSlug =
+  typeof route.params["storeSlug"] === "string"
+    ? route.params["storeSlug"]
+    : route.params["storeSlug"][0];
+
+const store = (await storeRepo.getStoreFromSlug(storeSlug))!;
+const products = (await storeRepo.getProducts(store.id))!;
 </script>
 
 <template>
@@ -10,9 +21,51 @@ const route = useRoute();
     <template #header>
       <StoreHeader>
         <HeaderLogo />
+        <HeaderSearchBar />
+        <HeaderSignIn v-if="!useMyAuthStore.client" />
+        <HeaderAccount
+          v-else
+          show-cart
+        />
       </StoreHeader>
     </template>
 
-    <p>Loja {{ route.params["storeSlug"] }}</p>
+    <div class="container self-center">
+      <Card class="overflow-hidden">
+        <template #header>
+          <div class="relative bg-slate-400">
+            <img
+              src="https://picsum.photos/1920/300"
+              width="1920"
+              height="300"
+            />
+          </div>
+        </template>
+        <template #content>
+          <div class="relative px-11 pb-8">
+            <div class="absolute top-[-5rem]">
+              <img
+                class="rounded-full w-40 h-40 overflow-hidden bg-slate-200 drop-shadow"
+                src="https://picsum.photos/160/160"
+                width="160"
+                height="160"
+              />
+            </div>
+            <div class="ms-48">
+              <h3 class="text-3xl drop-shadow">{{ store.name }}</h3>
+              <p class="text-lg mt-2">{{ store.description }}</p>
+            </div>
+          </div>
+        </template>
+      </Card>
+      <article class="mt-8 grid grid-cols-6 grid-flow-row gap-5">
+        <ProductCard
+          v-for="product in products"
+          class="row-span-1"
+          :product="product"
+          :store="store"
+        />
+      </article>
+    </div>
   </NuxtLayout>
 </template>

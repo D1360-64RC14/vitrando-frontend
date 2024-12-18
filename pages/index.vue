@@ -6,44 +6,20 @@ import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
 import { useMyAuthStore } from "~/stores/Auth";
+import { StoreRepository } from "~/repositories/StoreRepository";
+import { useMyNearbyStoresStore } from "~/stores/NearbyStores";
 
-const randomProducts = (count: number) => (storeID: number) => {
-  return Array.from({ length: count }, (_, index) => {
-    const price = Math.floor(Math.random() * 10000) / 100;
-    const imageId = storeID * 10 + index;
+const storeRepo = new StoreRepository();
 
-    return <Product>{
-      id: index,
-      storeID: storeID,
-      name: `Produto ${index + 1}`,
-      price: price,
-      imageUrl: `https://picsum.photos/id/${imageId}/800/800`,
-    };
-  });
-};
+const homeStripeData = computed(() =>
+  (useMyNearbyStoresStore.stores ?? []).map<[Store, Product[]]>(
+    ({ store, products }) => [store, products]
+  )
+);
 
-function store(
-  name: string,
-  id: number,
-  products: (id: number) => Product[]
-): [Store, Product[]] {
-  return [
-    {
-      id: Math.floor(Math.random() * 100),
-      name: name,
-      slug: name.toLowerCase().replace(" ", "-"),
-    },
-    products(id),
-  ];
-}
-
-const homeStripeData = [
-  store("Loja 1", 1, randomProducts(8)),
-  store("Loja 2", 2, randomProducts(8)),
-  store("Loja 3", 3, randomProducts(8)),
-  store("Loja 4", 4, randomProducts(8)),
-  store("Loja 5", 5, randomProducts(8)),
-];
+storeRepo.getNearbyStoresForStore().then((nearbyStores) => {
+  useMyNearbyStoresStore.stores = nearbyStores;
+});
 </script>
 
 <template>
