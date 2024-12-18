@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Loja, Produto } from "~/domain/Loja";
+import type { Store, Product } from "~/domain/Store";
 import { CurrencyManager } from "~/currency/CurrencyManager";
 
 const { product, store } = defineProps<{
-  product: Produto;
-  store: Loja;
+  product: Product;
+  store: Store;
 }>();
 
 const currency = new CurrencyManager().getComputedCurrency(useCurrency());
@@ -18,10 +18,10 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
         width="400"
         height="400"
         loading="lazy"
-        :src="product.imagemUrl"
+        :src="product.imageUrl"
       />
-      <h4 class="my-3 text-gray-700">{{ product.nome }}</h4>
-      <h5 class="text-xl">{{ currency.format(product.preco) }}</h5>
+      <h4 class="my-3 text-gray-700">{{ product.name }}</h4>
+      <h5 class="text-xl">{{ currency.format(product.price) }}</h5>
     </section>
   </NuxtLink>
 </template>

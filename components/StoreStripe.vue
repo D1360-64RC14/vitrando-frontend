@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Loja, Produto } from "~/domain/Loja";
+import type { Store, Product } from "~/domain/Store";
 import Card from "primevue/card";
 import ProductCard from "./ProductCard.vue";
 
 const { store, products } = defineProps<{
-  store: Loja;
-  products: Produto[];
+  store: Store;
+  products: Product[];
 }>();
 </script>
 
@@ -16,7 +16,7 @@ const { store, products } = defineProps<{
   >
     <template #content>
       <h3 class="mb-5 ms-3 text-xl">
-        <NuxtLink :to="`/@${store.slug}`">{{ store.nome }}</NuxtLink>
+        <NuxtLink :to="`/@${store.slug}`">{{ store.name }}</NuxtLink>
       </h3>
       <ScrollableArrows
         snap-x
