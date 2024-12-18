@@ -5,7 +5,7 @@ const scroll = useScrollSize();
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
     <header
-      class="col-span-full sticky top-0 z-50 px-2 py-4 transition-all bg-opacity-90 backdrop-blur-md"
+      class="col-span-full sticky top-0 z-50 p-4 transition-all bg-opacity-90 backdrop-blur-md"
       :class="{ 'bg-white': scroll.offTop, 'shadow-lg': scroll.offTop }"
     >
       <slot name="header"></slot>
