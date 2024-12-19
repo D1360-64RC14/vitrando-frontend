@@ -17,9 +17,7 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
     >
       <div class="flex-grow">
         <img
-          class="w-full h-full object-cover"
-          width="400"
-          height="400"
+          class="w-full object-cover aspect-square"
           loading="lazy"
           :src="product.imageUrl"
         />
