@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMyAuthStore } from "~/stores/Auth";
+const profileStore = useMyProfileStore();
 </script>
 
 <template>
@@ -7,8 +7,8 @@ import { useMyAuthStore } from "~/stores/Auth";
     <template #header>
       <StoreHeader>
         <HeaderLogo />
-        <HeaderSignIn v-if="!useMyAuthStore.client" />
-        <HeaderAccount v-else />
+        <HeaderAccount v-if="profileStore.isLoggedIn" />
+        <HeaderSignIn v-else />
       </StoreHeader>
     </template>
 

@@ -2,10 +2,11 @@
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
 import { StoreRepository } from "~/repositories/StoreRepository";
-import { useMyAuthStore } from "~/stores/Auth";
 
 const route = useRoute();
 const storeRepo = new StoreRepository();
+
+const profileStore = useMyProfileStore();
 
 const storeSlug =
   typeof route.params["storeSlug"] === "string"
@@ -22,11 +23,11 @@ const products = (await storeRepo.getProducts(store.id))!;
       <StoreHeader>
         <HeaderLogo />
         <HeaderSearchBar />
-        <HeaderSignIn v-if="!useMyAuthStore.client" />
         <HeaderAccount
-          v-else
+          v-if="profileStore.isLoggedIn"
           show-cart
         />
+        <HeaderSignIn v-else />
       </StoreHeader>
     </template>
 

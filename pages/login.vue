@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useMyAuthStore } from "~/stores/Auth";
 import { AuthRepository } from "~/repositories/AuthRepository";
-import { useMyCartStore } from "~/stores/Cart";
+import { useMyProfileStore } from "~/stores/Profile";
 import { ShoppingListRepository } from "~/repositories/ShoppingListRepository";
 
 const authRepo = new AuthRepository();
-const shoppingListRepo = new ShoppingListRepository();
+
+const profileStore = useMyProfileStore();
 
 const phone = ref("");
 
@@ -27,23 +27,15 @@ async function login() {
   isValidating.value = true;
 
   const response = await authRepo.login(phone.value);
-
-  if (response) {
-    isClientExistent.value = true;
-    const cartStore = await shoppingListRepo.getCartForStore(
-      response.client.id
-    );
-
-    useMyAuthStore.client = response.client;
-
-    useMyCartStore.items = cartStore.items;
-    useMyCartStore.shoppingList = cartStore.shoppingList;
-
-    await navigateTo("/");
+  if (!response) {
+    isClientExistent.value = false;
     return;
   }
 
-  isClientExistent.value = false;
+  isClientExistent.value = true;
+
+  profileStore.login(response.accessToken.token, response.client);
+  await navigateTo("/");
 }
 </script>
 

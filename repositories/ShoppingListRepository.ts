@@ -1,156 +1,71 @@
-import type { ShoppingListID, ClientID, ProductID } from "~/domain/ID";
-import type { Product } from "~/domain/Store";
-import { StoreRepository } from "./StoreRepository";
+import type { ShoppingListID, ClientID, ProductID, StoreID } from "~/domain/ID";
 
-export interface ShoppingList {
-  shoppingListID: ShoppingListID;
-  name?: string;
-  clientID: ClientID;
+export interface Cart {
+  products: ProductGroup[];
 }
 
-export interface ShoppingListItem {
-  shoppingListID: ShoppingListID;
+export interface ProductGroup {
   productID: ProductID;
+  storeID: StoreID;
   quantity: number;
 }
 
-export interface StoreCart {
-  shoppingList?: ShoppingList;
-  items: StoreCartItem[];
+export interface ShoppingList {
+  name: string;
+  products: ProductGroup[];
 }
 
-export interface StoreCartItem {
-  item: ShoppingListItem;
-  product: Product;
+interface beShoppingList {
+  id: ShoppingListID;
+  clientID: ClientID;
+  name: string;
+}
+
+interface beShoppingListItem extends ProductGroup {
+  shoppingListID: ShoppingListID;
 }
 
 export class ShoppingListRepository {
-  private readonly storeRepo = new StoreRepository();
+  private readonly profileStore = useMyProfileStore();
+  private readonly shoppingLists = useShoppingListsStore();
+  private readonly shoppingListItems = useShoppingListItemsStore();
 
-  async getCartForStore(clientID: ClientID): Promise<StoreCart> {
-    const cart = await this.getCart(clientID);
-    const cartItems = await this.getShoppingListItems(
-      clientID,
-      cart.shoppingListID
+  async getMyShoppingLists(): Promise<ShoppingList[]> {
+    const beShoppingLists = this.shoppingLists.filter(
+      (sl) => sl.clientID === this.profileStore.client?.id
     );
 
-    const productItemsToRequest = cartItems!.map(async (sli) => ({
-      item: sli,
-      product: (await this.storeRepo.getProduct(sli.productID, sli.productID))!,
-    }));
-
-    const productItems = await Promise.all(productItemsToRequest);
-
-    return {
-      shoppingList: cart,
-      items: productItems,
-    };
-  }
-
-  async getCart(clientID: ClientID): Promise<ShoppingList> {
-    let shoppingList = shoppingLists.findLast((sl) => sl.clientID === clientID);
-
-    if (!shoppingList) {
-      shoppingList = {
-        shoppingListID: (shoppingLists.at(-1)?.shoppingListID ?? 0) + 1,
-        clientID: clientID,
-      };
-
-      shoppingLists.push(shoppingList);
-    }
-
-    return shoppingList;
-  }
-
-  async addToCart(
-    clientID: ClientID,
-    productID: ProductID,
-    quantity: number
-  ): Promise<ShoppingListItem> {
-    const cart = await this.getCart(clientID);
-
-    let item = shoppingListItems.find(
-      (sli) =>
-        sli.shoppingListID === cart.shoppingListID &&
-        sli.productID === productID
+    const shoppingListsRequest = beShoppingLists.map((sl) =>
+      this.getShoppingList(sl.id)
     );
+    const shoppingLists = await Promise.all(shoppingListsRequest);
 
-    if (!item) {
-      item = {
-        shoppingListID: cart.shoppingListID,
-        productID: productID,
-        quantity: quantity,
-      };
-
-      shoppingListItems.push(item);
-    } else {
-      item.quantity += quantity;
-    }
-
-    return item;
-  }
-
-  async removeFromCart(
-    clientID: ClientID,
-    productID: ProductID,
-    quantity: number
-  ): Promise<ShoppingListItem> {
-    const cart = await this.getCart(clientID);
-
-    const item = shoppingListItems.find(
-      (sli) =>
-        sli.shoppingListID === cart.shoppingListID &&
-        sli.productID === productID
-    );
-
-    if (!item) {
-      return {
-        shoppingListID: cart.shoppingListID,
-        productID: productID,
-        quantity: 0,
-      };
-    }
-
-    item.quantity -= quantity;
-
-    if (item.quantity <= 0) {
-      item.quantity = 0;
-    }
-
-    return item;
-  }
-
-  async getShoppingLists(clientID: ClientID): Promise<ShoppingList[]> {
-    const cart = await this.getCart(clientID);
-
-    return shoppingLists.filter(
-      (sl) => sl.clientID === clientID && sl !== cart
-    );
+    return shoppingLists.filter((r) => r !== null);
   }
 
   async getShoppingList(
-    clientID: ClientID,
     shoppingListID: ShoppingListID
   ): Promise<ShoppingList | null> {
-    const shoppingList = shoppingLists.find(
-      (sl) => sl.clientID === clientID && sl.shoppingListID === shoppingListID
+    const shoppingList = this.shoppingLists.find(
+      (sl) =>
+        sl.clientID === this.profileStore.client?.id && sl.id === shoppingListID
     );
-
-    return shoppingList ?? null;
-  }
-
-  async getShoppingListItems(
-    clientID: ClientID,
-    shoppingListID: ShoppingListID
-  ): Promise<ShoppingListItem[] | null> {
-    const shoppingList = await this.getShoppingList(clientID, shoppingListID);
     if (!shoppingList) return null;
 
-    return shoppingListItems.filter(
+    const shoppingListItems = this.shoppingListItems.filter(
       (sli) => sli.shoppingListID === shoppingListID
     );
+
+    return {
+      name: shoppingList.name,
+      products: shoppingListItems,
+    };
   }
 }
 
-const shoppingLists: ShoppingList[] = [];
-const shoppingListItems: ShoppingListItem[] = [];
+const useShoppingListsStore = defineStore("db_shopping_list", {
+  state: (): beShoppingList[] => [],
+});
+const useShoppingListItemsStore = defineStore("db_shopping_list_item", {
+  state: (): beShoppingListItem[] => [],
+});

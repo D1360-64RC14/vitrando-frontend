@@ -14,6 +14,9 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  piniaPluginPersistedstate: {
+    storage: "localStorage",
+  },
   ...Routes,
   ...App,
   ...Styles,

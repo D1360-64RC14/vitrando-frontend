@@ -1,25 +1,30 @@
 <script setup lang="ts">
-import type { Store, Product } from "~/domain/Store";
 import StoreStripe from "~/components/StoreStripe.vue";
 import HeaderSignIn from "~/components/header/HeaderSignIn.vue";
 import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
-import { useMyAuthStore } from "~/stores/Auth";
 import { StoreRepository } from "~/repositories/StoreRepository";
 import { useMyNearbyStoresStore } from "~/stores/NearbyStores";
 
 const storeRepo = new StoreRepository();
 
-const homeStripeData = computed(() =>
-  (useMyNearbyStoresStore.stores ?? []).map<[Store, Product[]]>(
-    ({ store, products }) => [store, products]
-  )
+const profileStore = useMyProfileStore();
+const nearbyStoresStore = useMyNearbyStoresStore();
+
+const nearbyStores = await storeRepo.getNearbyStores();
+
+const nearbyStoreProductsRequest = nearbyStores.map(async (s) => ({
+  store: s,
+  products: (await storeRepo.getProducts(s.id)) ?? [],
+}));
+
+const nearbyStoreProducts = await Promise.all(nearbyStoreProductsRequest);
+const filteredNearbyStoreProducts = nearbyStoreProducts.filter(
+  (sp) => sp.products.length > 0
 );
 
-storeRepo.getNearbyStoresForStore().then((nearbyStores) => {
-  useMyNearbyStoresStore.stores = nearbyStores;
-});
+nearbyStoresStore.$patch(filteredNearbyStoreProducts);
 </script>
 
 <template>
@@ -28,16 +33,16 @@ storeRepo.getNearbyStoresForStore().then((nearbyStores) => {
       <StoreHeader>
         <HeaderLogo />
         <HeaderSearchBar />
-        <HeaderSignIn v-if="!useMyAuthStore.client" />
         <HeaderAccount
-          v-else
+          v-if="profileStore.isLoggedIn"
           show-cart
         />
+        <HeaderSignIn v-else />
       </StoreHeader>
     </template>
 
     <StoreStripe
-      v-for="[store, products] in homeStripeData"
+      v-for="{ store, products } in nearbyStoresStore.$state"
       :key="store.id"
       :store="store"
       :products="products"

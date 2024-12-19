@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { useMyAuthStore } from "~/stores/Auth";
-import { useMyCartStore } from "~/stores/Cart";
-
 const props = defineProps<{
   showCart?: boolean;
 }>();
 
-const itemsInCart = computed(() => useMyCartStore.items.length);
+const profileStore = useMyProfileStore();
+const cartStore = useMyCartStore();
 </script>
 
 <template>
@@ -15,7 +13,7 @@ const itemsInCart = computed(() => useMyCartStore.items.length);
       <Button
         v-if="props.showCart"
         variant="outlined"
-        :badge="itemsInCart.toString()"
+        :badge="cartStore.products.length.toString()"
         badge-severity=""
       >
         <template #icon>
@@ -27,7 +25,7 @@ const itemsInCart = computed(() => useMyCartStore.items.length);
       <Button
         variant="text"
         severity="secondary"
-        @click="useMyAuthStore.client = undefined"
+        @click="profileStore.logout()"
       >
         Logout
       </Button>
