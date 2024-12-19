@@ -15,14 +15,14 @@ const currency = new CurrencyManager().getComputedCurrency(useCurrency());
     <section
       class="snap-start bg-white h-full w-full overflow-hidden rounded-lg flex flex-col"
     >
-      <div class="flex-grow">
+      <div>
         <img
           class="w-full object-cover aspect-square"
           loading="lazy"
           :src="product.imageUrl"
         />
       </div>
-      <div>
+      <div class="mt-auto">
         <h4 class="my-3 text-gray-700">{{ product.name }}</h4>
         <h5 class="text-xl">{{ currency.format(product.price) }}</h5>
       </div>

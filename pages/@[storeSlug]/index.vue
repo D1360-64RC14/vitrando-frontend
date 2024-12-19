@@ -59,13 +59,20 @@ const products = (await storeRepo.getProducts(store.id))!;
           </div>
         </template>
       </Card>
-      <article class="mt-8 grid grid-cols-6 grid-flow-row gap-5">
-        <ProductCard
+      <article class="mt-8 grid grid-cols-6 grid-flow-row gap-4">
+        <Card
           v-for="product in products"
-          class="row-span-1"
-          :product="product"
-          :store="store"
-        />
+          class="flex"
+          :pt="{ body: 'h-full', content: 'h-full' }"
+        >
+          <template #content>
+            <ProductCard
+              class="row-span-1"
+              :product="product"
+              :store="store"
+            />
+          </template>
+        </Card>
       </article>
     </div>
   </NuxtLayout>
