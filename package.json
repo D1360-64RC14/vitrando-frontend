@@ -16,6 +16,7 @@
     "@vesp/nuxt-fontawesome": "^1.1.0",
     "nuxt": "^3.14.159",
     "pinia": "^2.3.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "primevue": "^4.2.2",
     "tailwindcss-primeui": "^0.3.4",
     "vue": "latest",
