@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   showCart?: boolean;
+  showStore?: boolean;
 }>();
 
 const profileStore = useMyProfileStore();
@@ -11,7 +12,7 @@ const cartStore = useMyCartStore();
   <div class="flex gap-2">
     <NuxtLink to="/cart">
       <Button
-        v-if="props.showCart"
+        v-if="showCart"
         variant="outlined"
         :badge="cartStore.products.length.toString()"
         badge-severity=""
@@ -21,6 +22,9 @@ const cartStore = useMyCartStore();
         </template>
       </Button>
     </NuxtLink>
+
+    <HeaderStore v-if="showStore" />
+
     <NuxtLink to="/">
       <Button
         variant="text"

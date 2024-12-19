@@ -36,6 +36,7 @@ nearbyStoresStore.$patch(filteredNearbyStoreProducts);
         <HeaderAccount
           v-if="profileStore.isLoggedIn"
           show-cart
+          show-store
         />
         <HeaderSignIn v-else />
       </StoreHeader>

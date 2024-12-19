@@ -2,7 +2,7 @@
 import type { Store, Product } from "~/domain/Store";
 import { CurrencyManager } from "~/currency/CurrencyManager";
 
-const { product, store } = defineProps<{
+defineProps<{
   product: Product;
   store: Store;
 }>();

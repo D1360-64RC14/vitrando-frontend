@@ -7,7 +7,10 @@ const profileStore = useMyProfileStore();
     <template #header>
       <StoreHeader>
         <HeaderLogo />
-        <HeaderAccount v-if="profileStore.isLoggedIn" />
+        <HeaderAccount
+          v-if="profileStore.isLoggedIn"
+          show-store
+        />
         <HeaderSignIn v-else />
       </StoreHeader>
     </template>

@@ -26,6 +26,7 @@ const products = (await storeRepo.getProducts(store.id))!;
         <HeaderAccount
           v-if="profileStore.isLoggedIn"
           show-cart
+          show-store
         />
         <HeaderSignIn v-else />
       </StoreHeader>

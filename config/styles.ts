@@ -51,6 +51,7 @@ export default {
         "arrow-left",
         "arrow-right",
         "cart-shopping",
+        "shop",
       ],
     },
   },

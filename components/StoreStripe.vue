@@ -3,7 +3,7 @@ import type { Store, Product } from "~/domain/Store";
 import Card from "primevue/card";
 import ProductCard from "./ProductCard.vue";
 
-const { store, products } = defineProps<{
+defineProps<{
   store: Store;
   products: Product[];
 }>();
