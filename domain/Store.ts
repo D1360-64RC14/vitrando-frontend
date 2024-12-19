@@ -1,7 +1,8 @@
-import type { ProductID, StoreID } from "./ID";
+import type { AgentID, ProductID, StoreID } from "./ID";
 
 export interface Store {
   id: StoreID;
+  agentID: AgentID;
   name: string;
   description: string;
   slug: string;

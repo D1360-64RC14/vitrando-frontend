@@ -27,4 +27,9 @@ export class AuthRepository {
       },
     };
   }
+
+  async signin(name: string, phone: string): Promise<LoginResponse> {
+    await this.clientRepo.create(name, phone);
+    return (await this.login(phone))!;
+  }
 }

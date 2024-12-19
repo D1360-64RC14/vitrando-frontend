@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { IconField, InputMask, InputText } from "primevue";
 import { Form } from "@primevue/forms";
-import { AuthRepository } from "~/repositories/AuthRepository";
-import { ClientRepository } from "~/repositories/ClientRepository";
-import type { Client } from "~/domain/Person";
+import {
+  AuthRepository,
+  type LoginResponse,
+} from "~/repositories/AuthRepository";
+import { AgentRepository } from "~/repositories/AgentRepository";
+import { StoreRepository } from "~/repositories/StoreRepository";
 
 const authRepo = new AuthRepository();
-const clientRepo = new ClientRepository();
+const agentRepo = new AgentRepository();
+const storeRepo = new StoreRepository();
 
 const profileStore = useMyProfileStore();
 
@@ -51,19 +55,19 @@ async function signin() {
   )
     return;
 
-  let client: Client;
+  let response: LoginResponse;
 
   try {
-    client = await clientRepo.create(name.value, phone.value);
+    response = await authRepo.signin(name.value, phone.value);
   } catch {
     isPhoneAlreadyExistent.value = true;
     return;
   }
 
-  const response = await authRepo.login(client.phoneNumber);
-  console.assert(response !== null, "Response do signin não vir nula");
+  profileStore.login(response.accessToken.token, response.client);
+  profileStore.agent = await agentRepo.getMyAgent();
+  profileStore.store = await storeRepo.getMyStore();
 
-  profileStore.login(response!.accessToken.token, response!.client);
   await navigateTo("/");
 }
 </script>

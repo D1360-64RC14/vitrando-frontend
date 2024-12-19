@@ -4,6 +4,7 @@ import type { Product, Store } from "~/domain/Store";
 export class StoreRepository {
   private readonly storesStore = useStoresStore();
   private readonly productsStore = useProductsStore();
+  private readonly profileStore = useMyProfileStore();
 
   constructor() {}
 
@@ -14,6 +15,19 @@ export class StoreRepository {
   async getStoreFromSlug(slug: string): Promise<Store | null> {
     const store = this.storesStore.$state.find(
       (s) => s.slug.toLowerCase() === slug.toLowerCase()
+    );
+
+    return store ?? null;
+  }
+
+  async getMyStore(): Promise<Store | null> {
+    console.assert(
+      this.profileStore.isLoggedIn,
+      "O cliente precisa estar logado para pegar a loja"
+    );
+
+    const store = this.storesStore.$state.find(
+      (s) => s.agentID === this.profileStore.client!.id
     );
 
     return store ?? null;
@@ -44,35 +58,41 @@ const useStoresStore = defineStore("db_store", {
   state: (): Store[] => [
     {
       id: 1,
+      agentID: 0,
       name: "Tech World",
       description: "A loja perfeita para os amantes de tecnologia.",
       slug: "tech-world",
     },
     {
       id: 2,
+      agentID: 0,
       name: "Fashion Hub",
       description: "Sua referência em moda e estilo.",
       slug: "fashion-hub",
     },
     {
       id: 3,
+      agentID: 0,
       name: "Home Essentials",
       description: "Tudo o que você precisa para sua casa.",
       slug: "home-essentials",
     },
     {
       id: 4,
+      agentID: 0,
       name: "Gourmet Market",
       description: "Os melhores produtos para sua cozinha gourmet.",
       slug: "gourmet-market",
     },
     {
       id: 5,
+      agentID: 0,
       name: "Sports Planet",
       description: "O mundo dos esportes em um só lugar.",
       slug: "sports-planet",
     },
   ],
+  persist: true,
 });
 
 const useProductsStore = defineStore("db_product", {
@@ -464,4 +484,5 @@ const useProductsStore = defineStore("db_product", {
       price: 299.99,
     },
   ],
+  persist: true,
 });

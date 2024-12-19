@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { AgentRepository } from "~/repositories/AgentRepository";
 import { AuthRepository } from "~/repositories/AuthRepository";
+import { StoreRepository } from "~/repositories/StoreRepository";
 import { useMyProfileStore } from "~/stores/Profile";
 
 const authRepo = new AuthRepository();
+const agentRepo = new AgentRepository();
+const storeRepo = new StoreRepository();
 
 const profileStore = useMyProfileStore();
 
@@ -36,6 +40,9 @@ async function login() {
   isClientExistent.value = true;
 
   profileStore.login(response.accessToken.token, response.client);
+  profileStore.agent = await agentRepo.getMyAgent();
+  profileStore.store = await storeRepo.getMyStore();
+
   await navigateTo("/");
 }
 </script>
