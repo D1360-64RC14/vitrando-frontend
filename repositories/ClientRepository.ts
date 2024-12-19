@@ -13,6 +13,24 @@ export class ClientRepository {
     const client = this.clientStore.$state.find((c) => c.phoneNumber === phone);
     return client ?? null;
   }
+
+  async create(name: string, phone: string): Promise<Client> {
+    const existent = await this.getByPhone(phone);
+    if (existent) {
+      throw "Número de telefone já cadastrado";
+    }
+
+    const newClient: Client = {
+      id: (this.clientStore.$state.at(-1)?.id ?? 0) + 1,
+      name,
+      phoneCountry: "55",
+      phoneNumber: phone,
+      sex: Sex.UNDEFINED,
+    };
+
+    this.clientStore.$state.push(newClient);
+    return newClient;
+  }
 }
 
 const useClientStore = defineStore("db_client", {

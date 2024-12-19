@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AuthRepository } from "~/repositories/AuthRepository";
 import { useMyProfileStore } from "~/stores/Profile";
-import { ShoppingListRepository } from "~/repositories/ShoppingListRepository";
 
 const authRepo = new AuthRepository();
 
@@ -11,20 +10,22 @@ const phone = ref("");
 
 const isValidating = ref(false);
 const isClientExistent = ref<boolean | null>(null);
-const isPhoneValid = computed(() => phone.value.length === 11);
+const isPhoneInvalid = computed(() => phone.value.length !== 11);
 
 const phoneErrorMessage = computed(() => {
   if (!isValidating.value) return "";
 
-  if (!isPhoneValid.value) return "Número inválido";
+  if (isPhoneInvalid.value) return "Número inválido";
   if (isClientExistent.value !== null && !isClientExistent.value)
-    return "Cliente Inexistente";
+    return "Cliente inexistente";
 
   return "";
 });
 
 async function login() {
   isValidating.value = true;
+
+  if (isPhoneInvalid.value || isClientExistent.value) return;
 
   const response = await authRepo.login(phone.value);
   if (!response) {
@@ -70,7 +71,7 @@ async function login() {
               unmask
               v-model="phone"
               :invalid="phoneErrorMessage.length > 0"
-              @blur="isValidating = false"
+              @value-change="isValidating = false"
             />
           </IconField>
           <label for="in_label">Telefone</label>
@@ -107,7 +108,7 @@ async function login() {
         fluid
         class="mt-5"
         type="submit"
-        :disabled="!isPhoneValid"
+        :disabled="isPhoneInvalid"
       >
         Entrar
       </Button>
