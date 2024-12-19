@@ -4,7 +4,7 @@ const profileStore = useMyProfileStore();
 
 <template>
   <NuxtLink
-    to="/store"
+    :to="`/@${profileStore.store?.slug}`"
     v-if="profileStore.haveStore"
   >
     <Button
