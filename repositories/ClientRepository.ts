@@ -44,4 +44,5 @@ const useClientStore = defineStore("db_client", {
       sex: Sex.MALE,
     },
   ],
+  persist: true,
 });

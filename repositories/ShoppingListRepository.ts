@@ -65,7 +65,9 @@ export class ShoppingListRepository {
 
 const useShoppingListsStore = defineStore("db_shopping_list", {
   state: (): beShoppingList[] => [],
+  persist: true,
 });
 const useShoppingListItemsStore = defineStore("db_shopping_list_item", {
   state: (): beShoppingListItem[] => [],
+  persist: true,
 });
