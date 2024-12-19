@@ -12,13 +12,16 @@ export default {
     "/@[storeSlug]/[productID]": {
       ssr: true,
     },
+    "/login": {
+      ssr: true,
+    },
+    "/signin": {
+      ssr: true,
+    },
     "/cart": {
       ssr: false,
     },
-    "/login": {
-      ssr: false,
-    },
-    "/signin": {
+    "/new-store": {
       ssr: false,
     },
   },
