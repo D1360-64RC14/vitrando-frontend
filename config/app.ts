@@ -1,7 +1,4 @@
-import type { InputConfig, ConfigLayerMeta } from "c12";
-import type { NuxtConfig } from "nuxt/schema";
-
-export default {
+export default defineNuxtConfig({
   app: {
     head: {
       charset: "utf-8",
@@ -29,4 +26,4 @@ export default {
       ],
     },
   },
-} as InputConfig<NuxtConfig, ConfigLayerMeta>;
+});

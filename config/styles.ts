@@ -1,6 +1,3 @@
-import type { InputConfig, ConfigLayerMeta } from "c12";
-import type { NuxtConfig } from "nuxt/schema";
-
 import { definePreset } from "@primevue/themes";
 import Lara from "@primevue/themes/lara";
 
@@ -22,7 +19,7 @@ const Vitrando = definePreset(Lara, {
   },
 });
 
-export default {
+export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   postcss: {
     plugins: {
@@ -55,4 +52,4 @@ export default {
       ],
     },
   },
-} as InputConfig<NuxtConfig, ConfigLayerMeta>;
+});

@@ -1,7 +1,4 @@
-import type { InputConfig, ConfigLayerMeta } from "c12";
-import type { NuxtConfig } from "nuxt/schema";
-
-export default {
+export default defineNuxtConfig({
   routeRules: {
     "/": {
       ssr: true,
@@ -25,4 +22,4 @@ export default {
       ssr: false,
     },
   },
-} as InputConfig<NuxtConfig, ConfigLayerMeta>;
+});
