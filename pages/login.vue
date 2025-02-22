@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { type FormSubmitEvent, Form } from "@primevue/forms";
+import { zodResolver } from "@primevue/forms/resolvers/zod";
+import { z } from "zod";
 import { AgentRepository } from "~/repositories/AgentRepository";
 import { AuthRepository } from "~/repositories/AuthRepository";
 import { StoreRepository } from "~/repositories/StoreRepository";
@@ -10,34 +13,29 @@ const storeRepo = new StoreRepository();
 
 const profileStore = useMyProfileStore();
 
-const phone = ref("");
-
-const isValidating = ref(false);
 const isClientExistent = ref<boolean | null>(null);
-const isPhoneInvalid = computed(() => phone.value.length !== 11);
 
-const phoneErrorMessage = computed(() => {
-  if (!isValidating.value) return "";
+const resolver = zodResolver(
+  z.object({
+    phone: z.preprocess(
+      (v) => (typeof v === "string" ? v.replaceAll(/[()\- ]/g, "") : v),
+      z.string().length(11, "Informe um número válido")
+    ),
+  })
+);
 
-  if (isPhoneInvalid.value) return "Número inválido";
-  if (isClientExistent.value !== null && !isClientExistent.value)
-    return "Cliente inexistente";
-
-  return "";
+const initialValues = ref({
+  phone: "",
 });
 
-async function login() {
-  isValidating.value = true;
+async function login(ev: FormSubmitEvent) {
+  if (!ev.valid) return;
 
-  if (isPhoneInvalid.value || isClientExistent.value) return;
-
-  const response = await authRepo.login(phone.value);
+  const response = await authRepo.login(ev.values.phone);
   if (!response) {
-    isClientExistent.value = false;
+    ev.errors.push("phone", "Telefone inexistente");
     return;
   }
-
-  isClientExistent.value = true;
 
   profileStore.login(response.accessToken.token, response.client);
   profileStore.agent = await agentRepo.getMyAgent();
@@ -50,7 +48,12 @@ async function login() {
 <template>
   <NuxtLayout name="centered">
     <Form
+      #="$form"
       class="grid gap-4"
+      :resolver="resolver"
+      :initialValues="initialValues"
+      :validateOnValueUpdate="false"
+      validateOnBlur
       @submit="login"
     >
       <h3 class="text-2xl mb-4">
@@ -76,21 +79,18 @@ async function login() {
               type="tel"
               autocomplete="tel-national"
               unmask
-              v-model="phone"
-              :invalid="phoneErrorMessage.length > 0"
-              @value-change="isValidating = false"
             />
           </IconField>
           <label for="in_label">Telefone</label>
         </FloatLabel>
         <Message
           class="mt-2"
-          v-if="phoneErrorMessage.length > 0"
+          v-if="$form.phone?.invalid"
           severity="error"
           size="small"
           variant="simple"
         >
-          {{ phoneErrorMessage }}
+          {{ $form.phone?.error?.message }}
         </Message>
       </div>
       <FloatLabel
@@ -115,7 +115,6 @@ async function login() {
         fluid
         class="mt-5"
         type="submit"
-        :disabled="isPhoneInvalid"
       >
         Entrar
       </Button>
