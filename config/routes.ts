@@ -3,16 +3,18 @@ export default defineNuxtConfig({
     "/": {
       ssr: true,
     },
+    "/login": {
+      ssr: true,
+      prerender: true,
+    },
+    "/signin": {
+      ssr: true,
+      prerender: true,
+    },
     "/@[storeSlug]": {
       ssr: true,
     },
     "/@[storeSlug]/[productID]": {
-      ssr: true,
-    },
-    "/login": {
-      ssr: true,
-    },
-    "/signin": {
       ssr: true,
     },
     "/cart": {
