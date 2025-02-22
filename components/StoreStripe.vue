@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <Card
-    class="group border-[1px]"
+    class="group"
     role="article"
   >
     <template #content>
