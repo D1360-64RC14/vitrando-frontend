@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host localhost",
+    "dev": "HOST=localhost nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "HOST=localhost nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
