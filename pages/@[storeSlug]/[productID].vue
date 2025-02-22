@@ -3,6 +3,8 @@ import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
 
 const route = useRoute();
+
+const profileStore = useMyProfileStore();
 </script>
 
 <template>
@@ -10,12 +12,18 @@ const route = useRoute();
     <template #header>
       <StoreHeader>
         <HeaderLogo />
+        <HeaderSearchBar />
+        <HeaderAccount
+          v-if="profileStore.isLoggedIn"
+          show-cart
+          show-store
+        />
+        <HeaderSignIn v-else />
       </StoreHeader>
     </template>
 
-    <p>
-      Produto {{ route.params["productID"] }} da loja
-      {{ route.params["storeSlug"] }}
-    </p>
+    <div class="container self-center">
+      <Card></Card>
+    </div>
   </NuxtLayout>
 </template>
