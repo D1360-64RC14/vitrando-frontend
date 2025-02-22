@@ -22,3 +22,15 @@ const scroll = useScrollSize();
     </div>
   </div>
 </template>
+
+<style>
+html {
+  scrollbar-gutter: stable;
+
+  @apply bg-gray-50;
+}
+
+.p-card {
+  @apply border-[1px];
+}
+</style>
