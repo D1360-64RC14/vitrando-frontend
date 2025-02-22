@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { NuxtLayout } from "#components";
 import { Card } from "primevue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
