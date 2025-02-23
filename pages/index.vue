@@ -4,10 +4,10 @@ import HeaderSignIn from "~/components/header/HeaderSignIn.vue";
 import HeaderSearchBar from "~/components/header/HeaderSearchBar.vue";
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
-import { StoreRepository } from "~/repositories/StoreRepository";
+import { StoreService } from "~/services/StoreService";
 import { useMyNearbyStoresStore } from "~/stores/NearbyStores";
 
-const storeRepo = new StoreRepository();
+const storeRepo = new StoreService();
 
 const profileStore = useMyProfileStore();
 const nearbyStoresStore = useMyNearbyStoresStore();

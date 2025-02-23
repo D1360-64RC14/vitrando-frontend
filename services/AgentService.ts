@@ -1,6 +1,6 @@
 import type { AgentID, ClientID } from "~/domain/ID";
 import type { Agent } from "~/domain/Person";
-import { ClientRepository } from "./ClientRepository";
+import { ClientService } from "./ClientService";
 
 interface beAgent {
   id: AgentID;
@@ -8,16 +8,16 @@ interface beAgent {
   cpf: string;
 }
 
-export class AgentRepository {
+export class AgentService {
   private readonly agentStore = useAgentStore();
   private readonly profileStore = useMyProfileStore();
 
-  private readonly clientRepo = new ClientRepository();
+  private readonly clientService = new ClientService();
 
   constructor() {}
 
   async get(clientID: ClientID): Promise<Agent | null> {
-    const client = await this.clientRepo.get(clientID);
+    const client = await this.clientService.get(clientID);
     if (!client) return null;
 
     const agent = this.agentStore.$state.find((a) => a.id === client.id);
@@ -41,7 +41,7 @@ export class AgentRepository {
   }
 
   async create(clientID: ClientID, email: string, cpf: string): Promise<Agent> {
-    const client = await this.clientRepo.get(clientID);
+    const client = await this.clientService.get(clientID);
     if (!client) throw "Cliente inexistente";
 
     const newAgent: beAgent = {

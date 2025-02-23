@@ -1,5 +1,5 @@
 import type { AccessToken } from "~/domain/Auth";
-import { ClientRepository } from "./ClientRepository";
+import { ClientService } from "./ClientService";
 import type { Client } from "~/domain/Person";
 
 export interface LoginResponse {
@@ -7,13 +7,13 @@ export interface LoginResponse {
   accessToken: AccessToken;
 }
 
-export class AuthRepository {
-  private readonly clientRepo = new ClientRepository();
+export class AuthService {
+  private readonly clientService = new ClientService();
 
   constructor() {}
 
   async login(phone: string): Promise<LoginResponse | null> {
-    const client = await this.clientRepo.getByPhone(phone);
+    const client = await this.clientService.getByPhone(phone);
     if (!client) return null;
 
     const expiration = new Date();
@@ -29,7 +29,7 @@ export class AuthRepository {
   }
 
   async signin(name: string, phone: string): Promise<LoginResponse> {
-    await this.clientRepo.create(name, phone);
+    await this.clientService.create(name, phone);
     return (await this.login(phone))!;
   }
 }

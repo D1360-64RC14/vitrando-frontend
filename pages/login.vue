@@ -2,18 +2,18 @@
 import { type FormSubmitEvent, Form } from "@primevue/forms";
 import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { z } from "zod";
-import { AgentRepository } from "~/repositories/AgentRepository";
-import { AuthRepository } from "~/repositories/AuthRepository";
-import { StoreRepository } from "~/repositories/StoreRepository";
+import { AgentService } from "~/services/AgentService";
+import { AuthService } from "~/services/AuthService";
+import { StoreService } from "~/services/StoreService";
 import { useMyProfileStore } from "~/stores/Profile";
 
-const authRepo = new AuthRepository();
-const agentRepo = new AgentRepository();
-const storeRepo = new StoreRepository();
+const authService = new AuthService();
+const agentService = new AgentService();
+const storeService = new StoreService();
 
 const profileStore = useMyProfileStore();
 
-const isClientExistent = ref<boolean | null>(null);
+const apiError = ref<string>("");
 
 const resolver = zodResolver(
   z.object({
@@ -24,22 +24,18 @@ const resolver = zodResolver(
   })
 );
 
-const initialValues = ref({
-  phone: "",
-});
-
 async function login(ev: FormSubmitEvent) {
   if (!ev.valid) return;
 
-  const response = await authRepo.login(ev.values.phone);
+  const response = await authService.login(ev.values.phone);
   if (!response) {
-    ev.errors.push("phone", "Telefone inexistente");
+    ev.errors = ["Telefone inexistente"];
     return;
   }
 
   profileStore.login(response.accessToken.token, response.client);
-  profileStore.agent = await agentRepo.getMyAgent();
-  profileStore.store = await storeRepo.getMyStore();
+  profileStore.agent = await agentService.getMyAgent();
+  profileStore.store = await storeService.getMyStore();
 
   await navigateTo("/");
 }
@@ -51,7 +47,7 @@ async function login(ev: FormSubmitEvent) {
       #="$form"
       class="grid gap-4"
       :resolver="resolver"
-      :initialValues="initialValues"
+      :initialValues="{ phone: '', email: '' }"
       :validateOnValueUpdate="false"
       validateOnBlur
       @submit="login"

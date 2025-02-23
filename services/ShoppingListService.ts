@@ -25,7 +25,7 @@ interface beShoppingListItem extends ProductGroup {
   shoppingListID: ShoppingListID;
 }
 
-export class ShoppingListRepository {
+export class ShoppingListService {
   private readonly profileStore = useMyProfileStore();
   private readonly shoppingLists = useShoppingListsStore();
   private readonly shoppingListItems = useShoppingListItemsStore();

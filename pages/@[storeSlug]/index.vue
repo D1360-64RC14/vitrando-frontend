@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import HeaderLogo from "~/components/header/HeaderLogo.vue";
 import StoreHeader from "~/components/StoreHeader.vue";
-import { StoreRepository } from "~/repositories/StoreRepository";
+import { StoreService } from "~/services/StoreService";
 
 const route = useRoute();
-const storeRepo = new StoreRepository();
+const storeRepo = new StoreService();
 
 const profileStore = useMyProfileStore();
 

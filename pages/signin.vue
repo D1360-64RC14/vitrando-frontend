@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { IconField, InputMask, InputText } from "primevue";
 import { Form } from "@primevue/forms";
-import {
-  AuthRepository,
-  type LoginResponse,
-} from "~/repositories/AuthRepository";
-import { AgentRepository } from "~/repositories/AgentRepository";
-import { StoreRepository } from "~/repositories/StoreRepository";
+import { AuthService, type LoginResponse } from "~/services/AuthService";
+import { AgentService } from "~/services/AgentService";
+import { StoreService } from "~/services/StoreService";
 
-const authRepo = new AuthRepository();
-const agentRepo = new AgentRepository();
-const storeRepo = new StoreRepository();
+const authRepo = new AuthService();
+const agentRepo = new AgentService();
+const storeRepo = new StoreService();
 
 const profileStore = useMyProfileStore();
 

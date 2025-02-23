@@ -1,7 +1,7 @@
 import type { ProductID, StoreID } from "~/domain/ID";
 import type { Product, Store } from "~/domain/Store";
 
-export class StoreRepository {
+export class StoreService {
   private readonly storesStore = useStoresStore();
   private readonly productsStore = useProductsStore();
   private readonly profileStore = useMyProfileStore();

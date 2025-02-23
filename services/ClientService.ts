@@ -1,7 +1,7 @@
 import type { ClientID } from "~/domain/ID";
 import { Sex, type Client } from "~/domain/Person";
 
-export class ClientRepository {
+export class ClientService {
   private readonly clientStore = useClientStore();
 
   async get(id: ClientID): Promise<Client | null> {
