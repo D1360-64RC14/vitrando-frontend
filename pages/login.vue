@@ -13,7 +13,7 @@ const storeService = new StoreService();
 
 const profileStore = useMyProfileStore();
 
-const apiError = ref<string>("");
+const apiError = ref<string | null>(null);
 
 const resolver = zodResolver(
   z.object({
@@ -29,7 +29,7 @@ async function login(ev: FormSubmitEvent) {
 
   const response = await authService.login(ev.values.phone);
   if (!response) {
-    ev.errors = ["Telefone inexistente"];
+    apiError.value = "Telefone inexistente";
     return;
   }
 
@@ -75,19 +75,15 @@ async function login(ev: FormSubmitEvent) {
               type="tel"
               autocomplete="tel-national"
               unmask
+              @value-change="apiError = null"
             />
           </IconField>
           <label for="in_label">Telefone</label>
         </FloatLabel>
-        <Message
+        <ErrorMessage
           class="mt-2"
-          v-if="$form.phone?.invalid"
-          severity="error"
-          size="small"
-          variant="simple"
-        >
-          {{ $form.phone?.error?.message }}
-        </Message>
+          :sources="[$form.phone?.error?.message, apiError]"
+        />
       </div>
       <FloatLabel
         variant="in"
