@@ -5,9 +5,9 @@ import { AuthService, type LoginResponse } from "~/services/AuthService";
 import { AgentService } from "~/services/AgentService";
 import { StoreService } from "~/services/StoreService";
 
-const authRepo = new AuthService();
-const agentRepo = new AgentService();
-const storeRepo = new StoreService();
+const authService = new AuthService();
+const agentService = new AgentService();
+const storeService = new StoreService();
 
 const profileStore = useMyProfileStore();
 
@@ -55,15 +55,15 @@ async function signin() {
   let response: LoginResponse;
 
   try {
-    response = await authRepo.signin(name.value, phone.value);
+    response = await authService.signin(name.value, phone.value);
   } catch {
     isPhoneAlreadyExistent.value = true;
     return;
   }
 
   profileStore.login(response.accessToken.token, response.client);
-  profileStore.agent = await agentRepo.getMyAgent();
-  profileStore.store = await storeRepo.getMyStore();
+  profileStore.agent = await agentService.getMyAgent();
+  profileStore.store = await storeService.getMyStore();
 
   await navigateTo("/");
 }

@@ -7,16 +7,16 @@ import StoreHeader from "~/components/StoreHeader.vue";
 import { StoreService } from "~/services/StoreService";
 import { useMyNearbyStoresStore } from "~/stores/NearbyStores";
 
-const storeRepo = new StoreService();
+const storeService = new StoreService();
 
 const profileStore = useMyProfileStore();
 const nearbyStoresStore = useMyNearbyStoresStore();
 
-const nearbyStores = await storeRepo.getNearbyStores();
+const nearbyStores = await storeService.getNearbyStores();
 
 const nearbyStoreProductsRequest = nearbyStores.map(async (s) => ({
   store: s,
-  products: (await storeRepo.getProducts(s.id)) ?? [],
+  products: (await storeService.getProducts(s.id)) ?? [],
 }));
 
 const nearbyStoreProducts = await Promise.all(nearbyStoreProductsRequest);

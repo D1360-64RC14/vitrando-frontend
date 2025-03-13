@@ -4,7 +4,7 @@ import StoreHeader from "~/components/StoreHeader.vue";
 import { StoreService } from "~/services/StoreService";
 
 const route = useRoute();
-const storeRepo = new StoreService();
+const storeService = new StoreService();
 
 const profileStore = useMyProfileStore();
 
@@ -13,8 +13,8 @@ const storeSlug =
     ? route.params["storeSlug"]
     : route.params["storeSlug"][0];
 
-const store = (await storeRepo.getStoreFromSlug(storeSlug))!;
-const products = (await storeRepo.getProducts(store.id))!;
+const store = (await storeService.getStoreFromSlug(storeSlug))!;
+const products = (await storeService.getProducts(store.id))!;
 </script>
 
 <template>
