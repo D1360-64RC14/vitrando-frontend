@@ -15,15 +15,21 @@ const firstError = computed(() => {
   const first = props.sources.find((v) => v !== null && v !== undefined);
   return first ?? null;
 });
+
+const invalid = computed(() => firstError.value !== null);
 </script>
 
 <template>
-  <Message
-    v-if="firstError !== null"
-    :severity="props.severity || 'error'"
-    :variant="props.variant || 'simple'"
-    :size="props.size || 'small'"
-  >
-    {{ firstError }}
-  </Message>
+  <slot :invalid />
+  <slot name="error">
+    <Message
+      v-if="firstError !== null"
+      class="mt-2"
+      :severity="props.severity || 'error'"
+      :variant="props.variant || 'simple'"
+      :size="props.size || 'small'"
+    >
+      {{ firstError }}
+    </Message>
+  </slot>
 </template>

@@ -29,7 +29,7 @@ async function login(ev: FormSubmitEvent) {
 
   const response = await authService.login(ev.values.phone);
   if (!response) {
-    apiError.value = "Telefone inexistente";
+    apiError.value = "Cadastro inexistente";
     return;
   }
 
@@ -47,7 +47,6 @@ async function login(ev: FormSubmitEvent) {
       #="$form"
       class="grid gap-4"
       :resolver="resolver"
-      :initialValues="{ phone: '', email: '' }"
       :validateOnValueUpdate="false"
       validateOnBlur
       @submit="login"
@@ -63,27 +62,29 @@ async function login(ev: FormSubmitEvent) {
       </h3>
 
       <div>
-        <FloatLabel variant="in">
-          <IconField>
-            <InputIcon>
-              <font-awesome-icon :icon="['fas', 'phone']" />
-            </InputIcon>
-            <InputMask
-              fluid
-              name="phone"
-              mask="(99) 99999-9999"
-              type="tel"
-              autocomplete="tel-national"
-              unmask
-              @value-change="apiError = null"
-            />
-          </IconField>
-          <label for="in_label">Telefone</label>
-        </FloatLabel>
-        <ErrorMessage
-          class="mt-2"
+        <FieldWithError
+          #="$error"
           :sources="[$form.phone?.error?.message, apiError]"
-        />
+        >
+          <FloatLabel variant="in">
+            <IconField>
+              <InputIcon>
+                <font-awesome-icon :icon="['fas', 'phone']" />
+              </InputIcon>
+              <InputMask
+                fluid
+                name="phone"
+                mask="(99) 99999-9999"
+                type="tel"
+                autocomplete="tel-national"
+                unmask
+                @value-change="apiError = null"
+                :invalid="$error.invalid"
+              />
+            </IconField>
+            <label for="in_label">Telefone</label>
+          </FloatLabel>
+        </FieldWithError>
       </div>
       <FloatLabel
         variant="in"
