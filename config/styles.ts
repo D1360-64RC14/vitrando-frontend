@@ -49,7 +49,11 @@ export default defineNuxtConfig({
         "arrow-right",
         "cart-shopping",
         "shop",
+        "heart",
+        "right-from-bracket",
       ],
+      regular: ["heart"],
+      brands: ["whatsapp"],
     },
   },
 });
