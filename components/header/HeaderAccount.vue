@@ -1,11 +1,42 @@
 <script lang="ts" setup>
-defineProps<{
+import type { MenuMethods } from "primevue";
+import type { MenuItem } from "primevue/menuitem";
+
+const props = defineProps<{
   showCart?: boolean;
   showStore?: boolean;
 }>();
 
 const profileStore = useMyProfileStore();
 const cartStore = useMyCartStore();
+
+const profileMenu = ref<MenuMethods>();
+
+const menuItems = reactive<MenuItem[]>([
+  {
+    icon: "fas user",
+    label: "Meu Perfil",
+    command: () => {
+      navigateTo("/profile");
+    },
+  },
+  {
+    icon: "fas shop",
+    label: "Abrir Loja",
+    command: () => {
+      navigateTo("/new-store");
+    },
+  },
+  {
+    class: "text-red-500",
+    icon: "fas right-from-bracket",
+    label: "Sair",
+    command: () => {
+      profileStore.logout();
+      navigateTo("/");
+    },
+  },
+]);
 </script>
 
 <template>
@@ -37,29 +68,37 @@ const cartStore = useMyCartStore();
           </template>
         </Button>
       </NuxtLink>
-      <NuxtLink
-        to="/new-store"
-        v-else
-      >
-        <Button
-          variant="outlined"
-          title="Abrir a Própria Loja"
-        >
-          <template #icon>
-            <font-awesome-icon :icon="['fas', 'shop']" />
-          </template>
-        </Button>
-      </NuxtLink>
     </template>
 
-    <NuxtLink to="/">
-      <Button
-        variant="text"
-        severity="secondary"
-        @click="profileStore.logout()"
-      >
-        Logout
-      </Button>
-    </NuxtLink>
+    <Button
+      variant="outlined"
+      severity="secondary"
+      title="Meu Perfil"
+      @click="profileMenu?.toggle"
+    >
+      <template #icon>
+        <font-awesome-icon :icon="['fas', 'user']" />
+      </template>
+    </Button>
+
+    <Menu
+      :model="menuItems"
+      popup
+      ref="profileMenu"
+    >
+      <template #start>
+        <h3 class="p-0 text-center my-3 font-semibold text-gray-600">
+          Olá, {{ profileStore.client?.name.split(" ")[0] }}!
+        </h3>
+        <Divider class="!m-0 !mt-3 !mb-1" />
+      </template>
+      <template #itemicon="$itemicon">
+        <font-awesome-icon
+          :class="'me-2 aspect-square ' + $itemicon.item.class"
+          :icon="$itemicon.item.icon ?? ''"
+          size="sm"
+        />
+      </template>
+    </Menu>
   </div>
 </template>
