@@ -23,4 +23,12 @@ export class CurrencyManager {
   getComputedCurrency(code: Ref<string>): ComputedRef<Currency> {
     return computed(() => this.getCurrency(code.value));
   }
+
+  get current() {
+    return this.getCurrency(useCurrency().value);
+  }
+
+  get currentComputed() {
+    return this.getComputedCurrency(useCurrency());
+  }
 }
